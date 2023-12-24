@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Temps d'attente</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Style for the banner container */
+        #banner-container {
+			width: 30%;
+			margin-right: 625px;
+			margin-bottom: -25px;
+        }
+
+        #banner {
+            width: 100%;
+            height: auto; /* Adjust the max height as needed */
+            object-fit: cover; /* Ensure the image covers the entire container */
+			display: block;
+        }
+
+        /* Style for navigation */
+        nav {
+            position: relative;
+            top: -45%;
+            right: 0;
+            text-align: right;
+            margin-left: 620px;
+            width: 100%;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin: 15px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #3498db;
+			text-decoration: underline;
+        }
+		.nav-type {
+			font-size: 20px;
+		}
+        /* Additional styles for the container */
+        .container {
+            max-width:auto;
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+		.left-align {
+			text-align: left; /* Align heading to the left */
+		}
+
+		.right-align {
+			text-align: right; /* Align waiting time information to the right */
+		}
+		
+        h1 {
+            color: #3498db;
+			font-size:50px;
+        }
+
+        p {
+            margin-top: 10px;
+            color: #333;
+            font-size: 30px;
+			text-align: left;
+        }
+		.waiting-time {
+			color: #ff0000; /* Set the desired color for the "0 minutes" text */
+		}
+		.home-title{
+            color: #3498db;
+			font-size: 80px;
+			margin-top: 10px;
+			margin-bottom: 45px;
+		}
+		.password-container{
+			display: flex;
+			align-items: center;
+		}
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Additional style for subpage container */
+        .subpage-container {
+            display: none; /* Hide all subpage containers by default */
+        }
+
+        /* Style for Home container */
+        #home-container {
+            display: block;			/* Show Home container by default */
+			max-width: 1200px;
+			margin: 0;
+		}
+
+        /* Style for Subpage 1 container */
+        #subpage1-container {
+            display: none; /* Hide Subpage 1 container by default */
+        }
+
+        /* Style for enlarged waiting time on Home page */
+        #home-waiting-time1,
+        #home-waiting-time2 {
+            font-size: 80px;
+            color: #3498db;
+        }
+		#password{
+			margin-right: 30px;
+			padding: 8px;
+		}
+		#input{
+			font-size: 18px;
+		}
+		#maj{
+			font-size: 18px;
+		}
+		form i {
+			margin-left: -50px;
+			cursor: pointer;
+		}
+    </style>
+</head>
+<body>
+    <!-- Banner Container -->
+    <div id="banner-container">
+        <!-- Banner Image -->
+        <img id="banner" 
+        src="https://raw.githubusercontent.com/jeremychartrand1/Web_Site/main/pjc.jpg" 
+        alt="Banner Image">
+
+        <!-- Navigation Section -->
+        <nav class="nav-type">
+            <a href="#home" onclick="showSubpage('home-container')">Affichage</a>
+            <a href="#subpage1" onclick="showSubpage('subpage1-container')">Modifier</a>
+        </nav>
+    </div>
+
+    <!-- Subpage Containers -->
+    <div class="subpage-container" id="home-container">
+        <!-- Main Content for Home -->
+        <div class="container">
+            <h1 class = "home-title">Temps d'attente</h1>
+            <p id="home-waiting-time1">Pour les conseils: <span id="currentWaitingTimeHome1" class="waiting-time">0 minutes</span></p>
+            <p id="home-waiting-time2">Pour la préparation d'ordonnances: <span id="currentWaitingTimeHome2" class="waiting-time">0 minutes</span></p>
+        </div>
+    </div>
+
+    <div class="subpage-container" id="subpage1-container">
+        <!-- Main Content for Subpage 1 -->
+        <div class="container">
+            <h1>Modifier le temps d'attente</h1>
+
+            <div>
+                <p>Temps d'attente pour les conseils: <span id="currentWaitingTime1">0 minutes</span></p>
+                <p>Temps d'attente pour la préparation: <span id="currentWaitingTime2">0 minutes</span></p>
+            </div>
+
+            <form>
+                <label for="newWaitingTime1" id="input">Entrer le temps pour les conseils (minutes):</label>
+                <input type="number" id="newWaitingTime1" min="0" id="input">
+
+                <label for="newWaitingTime2" id="input">Entrer le temps pour la préparation (minutes):</label>
+                <input type="number" id="newWaitingTime2" min="0" id="input">
+
+                <label for="password" id="input">Entrer le mot de passe:</label>
+				<input type="password" id="password" required id="input"><i class="bi bi-eye-slash" id="togglePassword"></i>
+                <button type="button" onclick="validateAndSubmitBoth()" id="maj">Mettre à jour les temps d'attentes</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
+
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("bi-eye");
+        });
+
+        // prevent form submit
+        const form = document.querySelector("form");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+        });
+    </script>
+    <script>
+        const correctPassword = "allo";
+        let lastWaitingTime1 = 0;
+        let lastWaitingTime2 = 0;
+        let lastWaitingTimeHome1 = 0;
+        let lastWaitingTimeHome2 = 0;
+
+        // Function to show the selected subpage container and hide others
+        function showSubpage(subpageId) {
+            const subpageContainers = document.querySelectorAll('.subpage-container');
+            subpageContainers.forEach(container => {
+                container.style.display = 'none';
+            });
+
+            const selectedSubpage = document.getElementById(subpageId);
+            if (selectedSubpage) {
+                selectedSubpage.style.display = 'block';
+            }
+        }
+
+        function validateAndSubmitBoth() {
+            const newWaitingTime1 = document.getElementById('newWaitingTime1').value.trim();
+            const newWaitingTime2 = document.getElementById('newWaitingTime2').value.trim();
+            const enteredPassword = document.getElementById('password').value;
+
+            if (enteredPassword === correctPassword) {
+                if (newWaitingTime1 !== "") {
+                    lastWaitingTime1 = newWaitingTime1;
+                    updateWaitingTime(1, lastWaitingTime1);
+                }
+
+                if (newWaitingTime2 !== "") {
+                    lastWaitingTime2 = newWaitingTime2;
+                    updateWaitingTime(2, lastWaitingTime2);
+                }
+                resetForm();
+            } else {
+                alert("Mauvais mot de passe, réessayer.");
+            }
+        }
+
+        function updateWaitingTime(waitingTimeIndex, newWaitingTime) {
+            document.getElementById(`currentWaitingTime${waitingTimeIndex}`).innerText = newWaitingTime + ' minutes';
+
+            // Update the waiting times on the Home page
+            lastWaitingTimeHome1 = Math.max(lastWaitingTime1, lastWaitingTimeHome1);
+            document.getElementById('currentWaitingTimeHome1').innerText = lastWaitingTimeHome1 + ' minutes';
+
+            lastWaitingTimeHome2 = Math.max(lastWaitingTime2, lastWaitingTimeHome2);
+            document.getElementById('currentWaitingTimeHome2').innerText = lastWaitingTimeHome2 + ' minutes';
+        }
+
+        function resetForm() {
+            document.getElementById('newWaitingTime1').value = "";
+            document.getElementById('newWaitingTime2').value = "";
+            document.getElementById('password').value = "";
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
